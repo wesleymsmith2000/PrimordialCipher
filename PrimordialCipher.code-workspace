@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "Primordial Cipher",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "vitest.enable": true
+  }
+}

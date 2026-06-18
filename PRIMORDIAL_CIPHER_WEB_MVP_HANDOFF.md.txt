@@ -1,0 +1,706 @@
+# Primordial Cipher Web MVP — Codex Project Handoff
+
+## Purpose
+
+Build a browser-based implementation of **Primordial Cipher**, the introductory game in the Cipher Breyden system.
+
+The immediate goal is not visual polish.
+
+The immediate goal is:
+
+* faithful implementation of MVP rules
+* rapid playtesting
+* balance analysis
+* AI experimentation
+* future expansion support
+
+The project should be structured so that the game engine remains independent of the UI.
+
+This will allow:
+
+* AI players
+* automated simulations
+* future multiplayer
+* alternate rule sets
+* custom skins
+* random events
+* future Cipher Breyden titles
+
+without rewriting core systems.
+
+---
+
+# Primary Design Philosophy
+
+The game engine must be completely separated from the user interface.
+
+Preferred structure:
+
+```text
+/src
+  /engine
+  /ai
+  /ui
+  /skins
+  /events
+  /tests
+```
+
+The engine should be playable entirely through automated tests.
+
+The UI should only render state and submit actions.
+
+---
+
+# Recommended Technology Stack
+
+* Vite
+* React
+* TypeScript
+* Vitest
+
+Optional:
+
+* Zustand for state management
+
+No backend is required initially.
+
+The MVP should run entirely locally.
+
+---
+
+# Initial MVP Scope
+
+Implement:
+
+* Board generation
+* Anchors
+* Prime bag
+* Resonance
+* Prime draw and retention
+* Tile construction
+* Duae
+* Unus
+* Network checks
+* Combat
+* Combat support
+* Capture
+* Retromorphosis
+* Super-prime discovery
+* Unlock tokens
+* Anchor locks
+* Anchor elimination
+* Cipher Revelation
+* Victory conditions
+* Anti-stall board expansion
+* Event log
+
+Optional:
+
+* Simple AI opponent
+
+---
+
+# Core Concepts
+
+## Tile
+
+A tile contains:
+
+* One public Unus
+* Two concealed Duae
+* Ownership information
+* Counter tokens
+
+Each Duae contains:
+
+* Prime factors
+* Product value
+
+The Unus is:
+
+```text
+LCM(Duae A, Duae B)
+```
+
+---
+
+# Standard Primes
+
+Available from the Prime Bag:
+
+```text
+2
+3
+5
+7
+```
+
+Per player contribution:
+
+```text
+5 copies of 2
+3 copies of 3
+2 copies of 5
+3 copies of 7
+```
+
+All are pooled into one shared bag.
+
+---
+
+# Super-Primes
+
+Examples:
+
+```text
+11
+13
+17
+```
+
+Super-primes are not normally drawn.
+
+They are discovered through:
+
+* Retromorphosis
+* Cipher Revelation
+* Anchor systems
+
+Super-primes require unlock tokens.
+
+---
+
+# Resonance
+
+Resonance serves as:
+
+* currency
+* action economy
+
+Each free action:
+
+* first use = free
+* additional uses = 1 Resonance
+
+---
+
+# Resonance Storage
+
+Storage limit:
+
+```text
+floor(log2(card count))
+```
+
+Examples:
+
+```text
+1 card = 0
+
+2-3 cards = 1
+
+4-7 cards = 2
+
+8-15 cards = 3
+
+16-31 cards = 4
+```
+
+Stored Resonance above the limit decays.
+
+---
+
+# Network Connectivity
+
+All tiles must maintain a connected allied path to their Anchor.
+
+Connections require:
+
+1. Orthogonal adjacency.
+2. Touching Duae sharing at least one prime factor.
+
+Whenever the board changes:
+
+* placement
+* capture
+* destruction
+* retromorphosis
+* anchor elimination
+* activation changes
+
+perform a Network Check.
+
+Disconnected tiles are discarded.
+
+Repeat recursively until stable.
+
+---
+
+# Combat
+
+Combat begins when:
+
+* tiles are orthogonally adjacent
+* their Unus values share a factor
+
+Touching Duae are revealed.
+
+If touching Duae share no factor:
+
+```text
+Attack fails.
+Attacking tile is discarded.
+```
+
+---
+
+## Striking Harmony
+
+Count attacking factors that appear among defenders.
+
+Duplicates count.
+
+---
+
+## Shielding Dissonance
+
+Count defending factors absent from attackers.
+
+Duplicates count.
+
+---
+
+## Assaulting Melody
+
+Roll:
+
+```text
+1 die per Harmony
+```
+
+Results:
+
+```text
+1 = failure
+
+2-3 = nothing
+
+4 = success
+
+5-6 = success and reroll
+```
+
+Melody:
+
+```text
+successes - failures
+```
+
+If less than 1:
+
+```text
+Immediate attack failure
+```
+
+---
+
+## Repelling Fugue
+
+Defender rolls:
+
+```text
+1 die per Dissonance
+```
+
+Scored identically.
+
+---
+
+## Resolution
+
+```text
+Melody > Fugue
+    attacker wins
+
+Melody < Fugue
+    defender wins
+
+equal
+    draw
+```
+
+---
+
+# Combat Support
+
+Cost:
+
+```text
+1 Resonance per support Duae
+```
+
+Support may come from:
+
+* other Duae of combat tile
+* one directly connected support tile
+
+No chains.
+
+Support factors are pooled before Harmony and Dissonance calculations.
+
+---
+
+# Retromorphosis
+
+Primary discovery mechanic.
+
+Requirements:
+
+* Duae exposed
+* not touching enemies
+* no counter tokens
+* not recently played
+* not recently attacked
+* not recently defended
+* not recently captured
+* not previously retromorphed
+
+Practical rule:
+
+```text
+If a tile has any counter token,
+Retromorphosis is forbidden.
+```
+
+---
+
+## Retromorphosis Procedure
+
+1. Choose one Duae.
+2. Remove one factor.
+3. Add factor to:
+
+   * other Duae
+   * Unus
+
+Compute:
+
+```text
+New Unus =
+Mean(
+ Modified Duae A
+ +
+ Modified Duae B
+ +
+ Modified Unus
+)
+```
+
+Round normally.
+
+Factor the result.
+
+Construct any legal pair of Duae:
+
+```text
+LCM = New Unus
+each Duae ≤ 60
+```
+
+Replace tile.
+
+Place Retromorphosis counter.
+
+---
+
+# Discovery
+
+If newly required factors are unavailable:
+
+Add them to the player's factor pool.
+
+Multiplicity included.
+
+If a newly discovered factor is a super-prime:
+
+Gain:
+
+```text
+1 unlock token
+```
+
+for that super-prime.
+
+---
+
+# Anchors
+
+Each Anchor occupies:
+
+```text
+3x3
+```
+
+Anchor contains:
+
+* four hidden edge primes
+* central lattice
+
+Sides may become locked.
+
+Four locked sides create:
+
+```text
+Anchor Lock
+```
+
+---
+
+# Anchor Core
+
+Players may contribute Resonance.
+
+At:
+
+```text
+28 Resonance
+```
+
+Anchor Core activates.
+
+Core primes become available.
+
+---
+
+# Cipher Breyden
+
+When the final lock is established:
+
+Player may declare:
+
+```text
+CIPHER BREYDEN!
+```
+
+Anchor remains vulnerable until next Anchor Lock Check.
+
+---
+
+# Anchor Elimination
+
+If all four sides remain locked:
+
+* Anchor eliminated
+* all owned resources removed
+
+Game continues.
+
+---
+
+# Cipher Revelation
+
+Upon Anchor elimination:
+
+Reveal lattice super-primes.
+
+Each distinct revealed super-prime grants:
+
+```text
+1 unlock token
+```
+
+to each participating surviving enemy Anchor.
+
+---
+
+# Anti-Stall Board Expansion
+
+Purpose:
+
+Prevent board deadlock.
+
+Rules:
+
+If no legal placements exist:
+
+* board is considered stalled
+
+If no legal placements exist for a full round cycle:
+
+* board expands automatically
+
+Expansion:
+
+```text
++1 square
+on every side
+```
+
+All active players may unanimously agree to delay expansion:
+
+```text
+exactly one round
+```
+
+During that delay:
+
+* Retromorphosis
+* combat
+* disruption
+
+may still resolve the stall.
+
+Expansion may repeat as necessary.
+
+Expanding can expose additional Anchor sides.
+
+---
+
+# AI System
+
+Create AI as plugins.
+
+Interface:
+
+```ts
+interface AiPlayerPlugin {
+  id: string;
+  name: string;
+
+  chooseAction(
+    state,
+    playerId
+  ): GameAction;
+}
+```
+
+---
+
+# MVP AI
+
+Priority:
+
+1. Forced-contact attacks.
+2. Expand network.
+3. Favor Anchor approach.
+4. Attack favorable targets.
+5. Retromorphosis safe tiles.
+6. Draw primes.
+7. End turn.
+
+Simple heuristic AI is sufficient.
+
+---
+
+# Future Expansion Hooks
+
+The architecture should support:
+
+## Custom Skins
+
+* alternate visuals
+* alternate board styles
+* alternate faction crests
+
+## Random Events
+
+Examples:
+
+* Resonance Storm
+* Prime Drought
+* Cipher Bloom
+* Anchor Surge
+
+## Alternate Modes
+
+* Team play
+* Draft play
+* Academy mode
+* Campaign mode
+
+## AI Connections
+
+Future support for:
+
+* local AI
+* external AI
+* LLM-assisted AI
+* AI-vs-AI balance testing
+
+---
+
+# Telemetry
+
+Every completed match should export:
+
+```text
+Rounds played
+First capture round
+First retromorphosis round
+First super-prime round
+First lock round
+First elimination round
+Combat totals
+Attacker wins
+Defender wins
+Draws
+Retromorphoses
+Board expansions
+```
+
+This data will be used for balance tuning.
+
+---
+
+# Development Order
+
+Phase 1:
+
+* Engine
+* Math
+* Tests
+
+Phase 2:
+
+* Board
+* Placement
+* Connectivity
+
+Phase 3:
+
+* Resonance
+* Turn system
+
+Phase 4:
+
+* Combat
+
+Phase 5:
+
+* Retromorphosis
+
+Phase 6:
+
+* Anchors
+* Victory
+
+Phase 7:
+
+* AI
+* Telemetry
+* Scenario tools
+
+---
+
+# Critical Requirement
+
+Do not simplify away the mathematics.
+
+Prime factors, LCM relationships, Harmony, Dissonance, Retromorphosis, and network topology are the heart of the game.
+
+The first build may be ugly.
+
+It may be developer-focused.
+
+It should still faithfully implement the mathematical game systems.

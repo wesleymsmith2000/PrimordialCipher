@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "install dependencies",
+      "type": "shell",
+      "command": "npm.cmd install",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "dev server",
+      "type": "shell",
+      "command": "npm.cmd run dev",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": {
+          "regexp": "^(.*)$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*VITE.*",
+          "endsPattern": ".*Local:.*"
+        }
+      }
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "npm.cmd run test:run",
+      "group": "test",
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "typecheck",
+      "type": "shell",
+      "command": "npm.cmd run typecheck",
+      "group": "build",
+      "problemMatcher": "$tsc"
+    }
+  ]
+}
