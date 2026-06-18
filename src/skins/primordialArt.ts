@@ -1,6 +1,9 @@
+import additionalUiAssetsSheetUrl from "../../assets/CipherBreydenArt/PrimordialCipher/AdditionalUIAssetsSheet.png";
 import arcanePuzzleBoardAssetSheetUrl from "../../assets/CipherBreydenArt/PrimordialCipher/ArcanePuzzleBoardAssetSheet.png";
 import boardGameComponentsUrl from "../../assets/CipherBreydenArt/PrimordialCipher/BoardGameComponents.png";
+import dicePrimesAndOtherTokenIconsUrl from "../../assets/CipherBreydenArt/PrimordialCipher/DicePrimesAndOtherTokenIcons.png";
 import fiveFoldArchivistUrl from "../../assets/CipherBreydenArt/PrimordialCipher/FiveFoldArchivist.png";
+import gameAssetsSheetUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GameAssetsSheet.png";
 import gameInterfaceOverviewUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GameInterfaceOverview.png";
 import gameUiConceptUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GameUIConcept.png";
 import goldenTriadUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GoldenTriad.png";
@@ -11,7 +14,15 @@ import superPrimeTilesStyleSheetUrl from "../../assets/CipherBreydenArt/Primordi
 import twinPulseTileUrl from "../../assets/CipherBreydenArt/PrimordialCipher/TwinPulseTile.png";
 import uiAssetSheetUrl from "../../assets/CipherBreydenArt/PrimordialCipher/UIAssetSheet.png";
 
-export type PrimordialArtKind = "board" | "card" | "component" | "interface" | "marker" | "tile" | "style-sheet";
+export type PrimordialArtKind =
+  | "board"
+  | "card"
+  | "component"
+  | "interface"
+  | "marker"
+  | "tile"
+  | "token"
+  | "style-sheet";
 
 export interface PrimordialArtAsset {
   id: string;
@@ -46,6 +57,20 @@ export const primordialArtAssets: PrimordialArtAsset[] = [
     src: boardGameComponentsUrl
   },
   {
+    id: "game-assets-sheet",
+    title: "Game Assets Sheet",
+    kind: "component",
+    aspect: "landscape",
+    src: gameAssetsSheetUrl
+  },
+  {
+    id: "dice-primes-and-other-token-icons",
+    title: "Dice, Primes, and Other Token Icons",
+    kind: "token",
+    aspect: "landscape",
+    src: dicePrimesAndOtherTokenIconsUrl
+  },
+  {
     id: "game-interface-overview",
     title: "Game Interface Overview",
     kind: "interface",
@@ -72,6 +97,13 @@ export const primordialArtAssets: PrimordialArtAsset[] = [
     kind: "interface",
     aspect: "landscape",
     src: uiAssetSheetUrl
+  },
+  {
+    id: "additional-ui-assets-sheet",
+    title: "Additional UI Assets Sheet",
+    kind: "interface",
+    aspect: "landscape",
+    src: additionalUiAssetsSheetUrl
   },
   {
     id: "five-fold-archivist",
