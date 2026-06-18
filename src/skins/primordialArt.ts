@@ -32,7 +32,38 @@ export interface PrimordialArtAsset {
   src: string;
 }
 
+export interface PrimeCardArt {
+  prime: 2 | 3 | 5 | 7;
+  title: string;
+  src: string;
+}
+
 export const primordialBoardTemplate = playingBoardTemplateUrl;
+
+export const primeCardArt: Record<PrimeCardArt["prime"], PrimeCardArt> = {
+  2: {
+    prime: 2,
+    title: "Twin Pulse Tile",
+    src: twinPulseTileUrl
+  },
+  3: {
+    prime: 3,
+    title: "Golden Triad",
+    src: goldenTriadUrl
+  },
+  5: {
+    prime: 5,
+    title: "Five Fold Archivist",
+    src: fiveFoldArchivistUrl
+  },
+  7: {
+    prime: 7,
+    title: "Sheva the Dreaming Eagle",
+    src: shevaTheDreamingEagleUrl
+  }
+};
+
+export const primeCardArtList = Object.values(primeCardArt).sort((left, right) => left.prime - right.prime);
 
 export const primordialArtAssets: PrimordialArtAsset[] = [
   {
@@ -106,11 +137,11 @@ export const primordialArtAssets: PrimordialArtAsset[] = [
     src: additionalUiAssetsSheetUrl
   },
   {
-    id: "five-fold-archivist",
-    title: "Five Fold Archivist",
+    id: "twin-pulse-tile",
+    title: "Twin Pulse Tile",
     kind: "card",
     aspect: "portrait",
-    src: fiveFoldArchivistUrl
+    src: twinPulseTileUrl
   },
   {
     id: "golden-triad",
@@ -120,11 +151,11 @@ export const primordialArtAssets: PrimordialArtAsset[] = [
     src: goldenTriadUrl
   },
   {
-    id: "twin-pulse-tile",
-    title: "Twin Pulse Tile",
-    kind: "tile",
+    id: "five-fold-archivist",
+    title: "Five Fold Archivist",
+    kind: "card",
     aspect: "portrait",
-    src: twinPulseTileUrl
+    src: fiveFoldArchivistUrl
   },
   {
     id: "sheva-the-dreaming-eagle",

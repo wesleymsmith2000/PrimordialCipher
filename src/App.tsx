@@ -6,6 +6,7 @@ import { primordialArtAssets, primordialBoardTemplate } from "./skins/primordial
 import { ArtGallery } from "./ui/ArtGallery";
 import { BoardView } from "./ui/BoardView";
 import { GameAssetAtlasPreview } from "./ui/GameAssetAtlasPreview";
+import { PrimeCardPreview } from "./ui/PrimeCardPreview";
 import { TokenAtlasPreview } from "./ui/TokenAtlasPreview";
 import { UiAssetAtlasPreview } from "./ui/UiAssetAtlasPreview";
 
@@ -84,6 +85,7 @@ export default function App() {
             {entry.message}
           </p>
         ))}
+        <PrimeCardPreview />
         <TokenAtlasPreview />
         <GameAssetAtlasPreview />
         <UiAssetAtlasPreview />

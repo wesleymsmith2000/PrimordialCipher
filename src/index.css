@@ -196,6 +196,60 @@ h2 {
   padding-top: 1rem;
 }
 
+.prime-card-preview {
+  border-top: 1px solid #3c3b2f;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.prime-card-grid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0.75rem;
+}
+
+.prime-card {
+  background: #171913;
+  border: 1px solid #3c3b2f;
+  border-radius: 8px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.prime-card img {
+  aspect-ratio: 3 / 4;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.prime-card figcaption {
+  align-items: center;
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: auto 1fr;
+  padding: 0.55rem;
+}
+
+.prime-card figcaption strong {
+  align-items: center;
+  background: #eee0b8;
+  border-radius: 50%;
+  color: #1f2019;
+  display: inline-flex;
+  font-size: 0.9rem;
+  height: 1.8rem;
+  justify-content: center;
+  width: 1.8rem;
+}
+
+.prime-card figcaption span {
+  color: #d8cfb1;
+  font-size: 0.72rem;
+  line-height: 1.15;
+}
+
 .token-atlas {
   border-top: 1px solid #3c3b2f;
   margin-top: 1rem;
