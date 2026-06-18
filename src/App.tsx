@@ -7,6 +7,7 @@ import { ArtGallery } from "./ui/ArtGallery";
 import { BoardView } from "./ui/BoardView";
 import { GameAssetAtlasPreview } from "./ui/GameAssetAtlasPreview";
 import { TokenAtlasPreview } from "./ui/TokenAtlasPreview";
+import { UiAssetAtlasPreview } from "./ui/UiAssetAtlasPreview";
 
 export default function App() {
   const [state, setState] = useState(createInitialState);
@@ -85,6 +86,7 @@ export default function App() {
         ))}
         <TokenAtlasPreview />
         <GameAssetAtlasPreview />
+        <UiAssetAtlasPreview />
         <ArtGallery assets={primordialArtAssets} />
       </aside>
     </main>
