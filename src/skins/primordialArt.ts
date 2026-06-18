@@ -2,6 +2,7 @@ import arcanePuzzleBoardAssetSheetUrl from "../../assets/CipherBreydenArt/Primor
 import boardGameComponentsUrl from "../../assets/CipherBreydenArt/PrimordialCipher/BoardGameComponents.png";
 import fiveFoldArchivistUrl from "../../assets/CipherBreydenArt/PrimordialCipher/FiveFoldArchivist.png";
 import gameInterfaceOverviewUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GameInterfaceOverview.png";
+import gameUiConceptUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GameUIConcept.png";
 import goldenTriadUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GoldenTriad.png";
 import markerComponentsUrl from "../../assets/CipherBreydenArt/PrimordialCipher/MarkerComponents.png";
 import playingBoardTemplateUrl from "../../assets/CipherBreydenArt/PrimordialCipher/PlayingBoardTemplate.png";
@@ -50,6 +51,13 @@ export const primordialArtAssets: PrimordialArtAsset[] = [
     kind: "interface",
     aspect: "landscape",
     src: gameInterfaceOverviewUrl
+  },
+  {
+    id: "game-ui-concept",
+    title: "Game UI Concept",
+    kind: "interface",
+    aspect: "landscape",
+    src: gameUiConceptUrl
   },
   {
     id: "marker-components",
