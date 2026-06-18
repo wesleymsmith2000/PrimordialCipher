@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Primordial Cipher Code Documentation</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="docs-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span>Code Docs</span>
+          <strong>Primordial Cipher</strong>
+        </div>
+        <nav aria-label="Documentation sections">
+          <a href="../index.html">Overview</a>
+          <a class="active" href="./index.html">Code Documentation</a>
+          <a href="../gameplay-documentation/index.html">Gameplay Help</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <p class="eyebrow">Engine-first architecture</p>
+          <h1>Code Documentation</h1>
+          <p class="lead">
+            The MVP is built around a UI-independent TypeScript engine. React renders state and submits actions; game rules
+            live under <code>src/engine/</code>, AI choices under <code>src/ai/</code>, and visual asset mappings under
+            <code>src/skins/</code>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Module Map</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Module</th>
+                  <th>Responsibility</th>
+                  <th>Reuse Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>src/engine/types.ts</code></td>
+                  <td>Shared domain types for players, tiles, anchors, actions, state, telemetry, and logs.</td>
+                  <td>Start here when porting rules into a simulation, server, or another UI.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/math.ts</code></td>
+                  <td>Prime-factor math, LCM, products, resonance storage, overlap, and absence counts.</td>
+                  <td>Pure functions with no UI dependency. Good candidate for extraction into a shared package.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/state.ts</code></td>
+                  <td>Initial game state, player records, anchors, starting prime bag, and telemetry.</td>
+                  <td>Scenario setup and test fixtures can build on this module.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/game.ts</code></td>
+                  <td>Action dispatcher and turn-level rule orchestration.</td>
+                  <td>UI and AI should call <code>applyAction</code> instead of mutating state directly.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/network.ts</code></td>
+                  <td>Placement legality, anchor contact, tile connectivity, and recursive network checks.</td>
+                  <td>Keep this independent from board rendering so alternate boards can reuse the topology rules.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/combat.ts</code></td>
+                  <td>Attack eligibility, Harmony, Dissonance, dice scoring, capture, discard, and combat telemetry.</td>
+                  <td>Uses injectable dice via <code>DieRoller</code>, which supports deterministic tests and simulations.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/retromorphosis.ts</code></td>
+                  <td>Retromorphosis eligibility, factor movement, new Unus calculation, discovery, and unlock tokens.</td>
+                  <td>Discovery logic is currently in the engine and should stay test-covered as rules mature.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/primeBag.ts</code></td>
+                  <td>Standard prime contributions, super-prime constants, prime bag creation, and draws.</td>
+                  <td>Future seeded randomness can be introduced here without touching React.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/discard.ts</code></td>
+                  <td>Discard stack capacity and tile archiving.</td>
+                  <td>Used by combat, build abandonment, reconstruction, and network loss.</td>
+                </tr>
+                <tr>
+                  <td><code>src/engine/tiles.ts</code></td>
+                  <td>Duae and tile constructors plus reveal helpers.</td>
+                  <td>Useful for tests, AI-generated moves, and tabletop scenario importers.</td>
+                </tr>
+                <tr>
+                  <td><code>src/ai/heuristicAi.ts</code></td>
+                  <td>AI plugin interface and starter heuristic AI.</td>
+                  <td>The plugin shape can later support local, remote, or LLM-assisted players.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2>Dependency Overview</h2>
+          <div class="diagram">
+            <pre class="mermaid">
+flowchart LR
+  UI[React UI<br/>src/App.tsx + src/ui] --> EngineIndex[src/engine/index.ts]
+  AI[src/ai/heuristicAi.ts] --> EngineIndex
+  EngineIndex --> Game[src/engine/game.ts]
+  Game --> Combat[src/engine/combat.ts]
+  Game --> Network[src/engine/network.ts]
+  Game --> Retromorphosis[src/engine/retromorphosis.ts]
+  Game --> PrimeBag[src/engine/primeBag.ts]
+  Game --> Discard[src/engine/discard.ts]
+  Game --> Math[src/engine/math.ts]
+  Combat --> Math
+  Combat --> Network
+  Combat --> Discard
+  Network --> Math
+  Network --> Discard
+  Retromorphosis --> Math
+  Retromorphosis --> Tiles[src/engine/tiles.ts]
+  State[src/engine/state.ts] --> PrimeBag
+  State --> Types[src/engine/types.ts]
+  Game --> Types
+  UI --> Skins[src/skins]
+            </pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Domain Model</h2>
+          <div class="diagram">
+            <pre class="mermaid">
+classDiagram
+  class GameState {
+    round: number
+    activePlayerId: PlayerId
+    players: Record
+    primeBag: PrimeBag
+    tiles: Record
+    anchors: Record
+    boardRadius: number
+    eventLog: EventLogEntry[]
+    telemetry: Telemetry
+  }
+
+  class PlayerState {
+    id: PlayerId
+    resonance: number
+    retainedPrimes: Factor[]
+    buildSpot?: BuildSpot
+    discardStack: DiscardEntry[]
+    factorPool: Factor[]
+    unlockTokens: Record
+  }
+
+  class Tile {
+    id: TileId
+    ownerId: PlayerId
+    position: Position
+    unus: number
+    duae: [Duae, Duae]
+    counters: CounterState
+  }
+
+  class Duae {
+    id: "a" | "b"
+    factors: Factor[]
+    product: number
+    revealed: boolean
+  }
+
+  class Anchor {
+    id: AnchorId
+    ownerId: PlayerId
+    origin: Position
+    edgePrimes: Record
+    lockedSides: Record
+    coreResonance: number
+    coreActive: boolean
+    eliminated: boolean
+    latticeSuperPrimes: Factor[]
+  }
+
+  GameState "1" --> "2" PlayerState
+  GameState "1" --> "*" Tile
+  GameState "1" --> "*" Anchor
+  GameState "1" --> "1" PrimeBag
+  Tile "1" --> "2" Duae
+  PlayerState "1" --> "0..1" BuildSpot
+  PlayerState "1" --> "*" DiscardEntry
+            </pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Action Flow</h2>
+          <div class="diagram">
+            <pre class="mermaid">
+sequenceDiagram
+  participant View as React View
+  participant Engine as applyAction
+  participant Rule as Rule Module
+  participant Network as applyNetworkCheck
+  participant State as New GameState
+
+  View->>Engine: GameAction
+  Engine->>Rule: Dispatch by action.type
+  Rule-->>Engine: Updated immutable state
+  alt placement, combat, or retromorphosis
+    Engine->>Network: Validate connected anchor network
+    Network-->>Engine: Stable state plus discards
+  end
+  Engine-->>State: Return next state
+  State-->>View: Render derived UI
+            </pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Current Extension Points</h2>
+          <ul class="module-list">
+            <li><code>AiPlayerPlugin.chooseAction(state, playerId)</code> can drive local AI, scripted tests, or simulations.</li>
+            <li><code>DieRoller</code> in combat makes dice deterministic for tests and balance sweeps.</li>
+            <li><code>createInitialState</code> can be complemented by scenario builders for tutorials or regression fixtures.</li>
+            <li><code>src/skins/</code> keeps asset registries outside engine rules, supporting alternate visual themes.</li>
+            <li><code>GameAction</code> is the contract for UI, AI, and future multiplayer commands.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Implementation Guardrails</h2>
+          <div class="callout">
+            Keep prime factors, LCM relationships, resonance, combat, retromorphosis, and network topology in engine modules.
+            UI components should render state and submit actions, not decide rules.
+          </div>
+          <ul class="module-list">
+            <li>Add engine tests under <code>src/tests/</code> when changing behavior.</li>
+            <li>Prefer pure helpers and immutable state updates for rule logic.</li>
+            <li>Use module exports from <code>src/engine/index.ts</code> for public engine APIs.</li>
+            <li>Document intentionally incomplete MVP areas as pending rather than smoothing over them.</li>
+          </ul>
+        </section>
+
+        <p class="footer">Generated as a human-maintained docs scaffold for the current TypeScript MVP.</p>
+      </main>
+    </div>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "dark", securityLevel: "loose" });
+    </script>
+  </body>
+</html>

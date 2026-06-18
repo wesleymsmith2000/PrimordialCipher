@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Primordial Cipher Docs Center</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="docs-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span>Docs Center</span>
+          <strong>Primordial Cipher</strong>
+        </div>
+        <nav aria-label="Documentation sections">
+          <a class="active" href="./index.html">Overview</a>
+          <a href="./code-documentation/index.html">Code Documentation</a>
+          <a href="./gameplay-documentation/index.html">Gameplay Help</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <p class="eyebrow">Developer and player reference</p>
+          <h1>Primordial Cipher Docs Center</h1>
+          <p class="lead">
+            A two-part documentation space for the codebase and the game itself. The code section is organized like a small
+            API and architecture site. The gameplay section reads like a game help center with interface guidance and rules
+            that can be used for tabletop play.
+          </p>
+        </section>
+
+        <section class="card-grid" aria-label="Documentation areas">
+          <article class="card">
+            <h2>Code Documentation</h2>
+            <p>
+              Module map, type model, engine flow, Mermaid diagrams, and reuse notes for future Cipher Breyden projects.
+            </p>
+            <p><a href="./code-documentation/index.html">Open code docs</a></p>
+          </article>
+          <article class="card">
+            <h2>Gameplay Help</h2>
+            <p>
+              Player-facing interface descriptions, core rules, online play terms, and by-hand tabletop procedures.
+            </p>
+            <p><a href="./gameplay-documentation/index.html">Open gameplay docs</a></p>
+          </article>
+        </section>
+
+        <section>
+          <h2>How To Use This Folder</h2>
+          <ul class="rule-list">
+            <li>Open <code>docs-center/index.html</code> directly in a browser for local reading.</li>
+            <li>Keep code-oriented material under <code>docs-center/code-documentation/</code>.</li>
+            <li>Keep player-facing help under <code>docs-center/gameplay-documentation/</code>.</li>
+            <li>Mermaid diagrams render when the browser can load Mermaid from its CDN.</li>
+          </ul>
+        </section>
+
+        <p class="footer">
+          This is a static first pass. It can later be migrated to Sphinx, VitePress, Docusaurus, or generated TypeDoc while
+          preserving the same two-section information architecture.
+        </p>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Primordial Cipher Gameplay Help</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="docs-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span>Gameplay Help</span>
+          <strong>Primordial Cipher</strong>
+        </div>
+        <nav aria-label="Documentation sections">
+          <a href="../index.html">Overview</a>
+          <a href="../code-documentation/index.html">Code Documentation</a>
+          <a class="active" href="./index.html">Gameplay Help</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <p class="eyebrow">Player guide and tabletop rules</p>
+          <h1>Gameplay Documentation</h1>
+          <p class="lead">
+            A player-facing help center for the online MVP and a core rules reference for playing by hand with tiles,
+            stickers, magnets, markers, and dice.
+          </p>
+        </section>
+
+        <section>
+          <h2>Quick Concept</h2>
+          <p>
+            Players build prime-factor tiles called Unus from two hidden factor groups called Duae. Tiles must stay connected
+            to their Anchor through orthogonal adjacency and shared factors. Players draw primes, construct tiles, place them,
+            attack through shared factors, and discover stronger factors through Retromorphosis.
+          </p>
+          <div class="callout">
+            The heart of the game is factor topology: where a tile is placed matters only if its factors can keep the network
+            alive.
+          </div>
+        </section>
+
+        <section>
+          <h2>Online Interface</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>Meaning</th>
+                  <th>Typical Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Top control panel</td>
+                  <td>Shows round, active player, resonance, retained primes, bag count, build spot, and discards.</td>
+                  <td>Check your current resources before choosing an action.</td>
+                </tr>
+                <tr>
+                  <td>Draw</td>
+                  <td>Spends resonance to draw one standard prime from the shared bag.</td>
+                  <td>Use when you need more factors for construction.</td>
+                </tr>
+                <tr>
+                  <td>Prime Collection</td>
+                  <td>Your retained prime factors. Clicking primes assigns them to Duae A or Duae B in the builder.</td>
+                  <td>Build the two factor groups that will define a tile.</td>
+                </tr>
+                <tr>
+                  <td>Tile Builder</td>
+                  <td>Shows Duae A, Duae B, the resulting Unus, construction cost, and Build Spot progress.</td>
+                  <td>Confirm a legal concept, pay resonance over time, then place it on the board.</td>
+                </tr>
+                <tr>
+                  <td>Board</td>
+                  <td>The tactical grid containing anchors and placed tiles.</td>
+                  <td>Select cells to inspect, or place a completed tile on a legal highlighted cell.</td>
+                </tr>
+                <tr>
+                  <td>Inspect panel</td>
+                  <td>Describes the selected tile, anchor cell, owner, Unus, Duae, and visible anchor data.</td>
+                  <td>Use before committing placement or combat decisions.</td>
+                </tr>
+                <tr>
+                  <td>Event Log</td>
+                  <td>Chronological rule feedback from the engine.</td>
+                  <td>Read it when an action fails, a tile is discarded, or combat resolves.</td>
+                </tr>
+                <tr>
+                  <td>AI</td>
+                  <td>Runs the current heuristic AI action for the active player.</td>
+                  <td>Useful for quick playtesting or letting a simple opponent move.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2>Core Components</h2>
+          <ul class="rule-list">
+            <li><strong>Prime:</strong> A factor token. Standard primes are 2, 3, 5, and 7.</li>
+            <li><strong>Duae:</strong> One of two factor groups on a tile. Each tile has Duae A and Duae B.</li>
+            <li><strong>Unus:</strong> The public tile value. It is the LCM of the two Duae products.</li>
+            <li><strong>Anchor:</strong> A 3 by 3 home structure containing edge primes, a central lattice, locks, and core resonance.</li>
+            <li><strong>Resonance:</strong> Action currency used to draw, build, place, recover, and later support combat.</li>
+            <li><strong>Counter tokens:</strong> Temporary state markers that can block Retromorphosis.</li>
+            <li><strong>Unlock tokens:</strong> Mark access to discovered super-primes such as 11, 13, and 17.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Tile Construction</h2>
+          <ol class="rule-list">
+            <li>Choose one or more retained primes for Duae A.</li>
+            <li>Choose one or more retained primes for Duae B.</li>
+            <li>Multiply the factors in each Duae to get two products.</li>
+            <li>Set the tile's Unus to the least common multiple of those two products.</li>
+            <li>Pay construction resonance equal to the number of prime factors in the Unus.</li>
+            <li>When the Build Spot project is complete, spend placement resonance and put it on a legal board cell.</li>
+          </ol>
+          <pre><code>Example:
+Duae A = 2 x 3 = 6
+Duae B = 3 x 5 = 15
+Unus = LCM(6, 15) = 30
+Construction cost = factor count of 30 = 3</code></pre>
+        </section>
+
+        <section>
+          <h2>Network Rules</h2>
+          <ul class="rule-list">
+            <li>Tiles connect orthogonally, not diagonally.</li>
+            <li>Allied tiles connect only when at least one Duae on each tile shares a factor.</li>
+            <li>A tile is legal if it touches its own Anchor or connects to an allied tile network.</li>
+            <li>After placement, capture, destruction, or Retromorphosis, run a network check.</li>
+            <li>Any tile that loses its connected path to its Anchor is discarded.</li>
+            <li>Network checks repeat until no more disconnected tiles remain.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Combat Rules</h2>
+          <ol class="rule-list">
+            <li>An attack requires orthogonal adjacency and shared Unus factors.</li>
+            <li>Touching Duae are revealed for the fight.</li>
+            <li>If the revealed/touching factors share no factor, the attack fails and the attacker is discarded.</li>
+            <li>Harmony is the count of attacking factors that appear among defending factors. Duplicates count.</li>
+            <li>Dissonance is the count of defending factors absent from attacking factors. Duplicates count.</li>
+            <li>The attacker rolls one die per Harmony to produce Melody.</li>
+            <li>The defender rolls one die per Dissonance to produce Fugue.</li>
+            <li>Melody greater than Fugue captures the defender. Melody less than Fugue discards the attacker. Equal scores draw.</li>
+          </ol>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Die Result</th>
+                  <th>Effect</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>Minus one success.</td></tr>
+                <tr><td>2-3</td><td>No effect.</td></tr>
+                <tr><td>4</td><td>Plus one success.</td></tr>
+                <tr><td>5-6</td><td>Plus one success and reroll that die.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2>Retromorphosis</h2>
+          <p>
+            Retromorphosis transforms an exposed, stable tile into a new form and can discover super-primes. In the MVP, a
+            tile must have at least one revealed Duae and no active counter tokens.
+          </p>
+          <ol class="rule-list">
+            <li>Choose a revealed eligible tile.</li>
+            <li>Choose one Duae and remove one factor from it.</li>
+            <li>Add that factor to the other Duae and to the tile's Unus calculation.</li>
+            <li>Compute the new Unus by averaging the modified Duae products and modified Unus, then round normally.</li>
+            <li>Factor the result and construct legal replacement Duae.</li>
+            <li>Place a Retromorphosis counter and add newly discovered factors to the player's factor pool.</li>
+            <li>If a discovered factor is greater than 7, gain an unlock token for that super-prime.</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>By-Hand Play Kit</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Physical Pieces</h3>
+              <p>Grid board, two 3 by 3 anchors, factor stickers or tokens, tile bases, markers, counters, and six-sided dice.</p>
+            </article>
+            <article class="card">
+              <h3>Recommended Tokens</h3>
+              <p>Use visible Unus labels, concealed Duae factor labels, resonance markers, lock markers, and counter markers.</p>
+            </article>
+            <article class="card">
+              <h3>Hidden Information</h3>
+              <p>Keep Duae concealed until combat, inspection, or rules explicitly reveal them. The Unus remains public.</p>
+            </article>
+          </div>
+          <h3>Manual Turn Procedure</h3>
+          <ol class="rule-list">
+            <li>Start your turn and collect the current resonance gain.</li>
+            <li>Choose actions such as draw, build, pay build progress, place, attack, recover, or Retromorphose.</li>
+            <li>Update counters, tile ownership, discard stacks, and event notes as each action resolves.</li>
+            <li>Run network checks after board-changing actions.</li>
+            <li>End your turn and pass to the next player.</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Tabletop Reference Values</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Standard primes</td><td>2, 3, 5, 7</td></tr>
+                <tr><td>Per-player prime contribution</td><td>Five 2s, three 3s, two 5s, three 7s</td></tr>
+                <tr><td>Example super-primes</td><td>11, 13, 17</td></tr>
+                <tr><td>Anchor size</td><td>3 by 3 cells</td></tr>
+                <tr><td>Discard capacity in MVP</td><td>4 tiles per player</td></tr>
+                <tr><td>Resonance storage</td><td>floor(log2(card count)) in the broader rules reference</td></tr>
+                <tr><td>Anchor core activation</td><td>28 contributed resonance in the broader rules reference</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2>Rules Still Growing In The MVP</h2>
+          <div class="callout warning">
+            This help page documents both implemented MVP behavior and intended tabletop rules. Anchor locks, full Cipher
+            Revelation, anti-stall expansion, and advanced combat support should be checked against the current engine before
+            competitive use.
+          </div>
+        </section>
+
+        <p class="footer">Use this page as the player-facing source of truth draft while the engine rules continue to mature.</p>
+      </main>
+    </div>
+  </body>
+</html>
