@@ -196,6 +196,69 @@ h2 {
   padding-top: 1rem;
 }
 
+.token-atlas {
+  border-top: 1px solid #3c3b2f;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.sprite-group {
+  margin-top: 0.9rem;
+}
+
+.sprite-group h3 {
+  color: #d7bd75;
+  font-size: 0.78rem;
+  margin: 0 0 0.55rem;
+  text-transform: uppercase;
+}
+
+.sprite-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sprite-chip {
+  align-items: center;
+  background: #171913;
+  border: 1px solid #3c3b2f;
+  border-radius: 6px;
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+  min-height: 76px;
+  min-width: 0;
+  padding: 0.45rem;
+}
+
+.sprite-chip > span:last-child {
+  color: #d8cfb1;
+  font-size: 0.68rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.sprite-icon {
+  display: inline-block;
+  flex: none;
+  overflow: hidden;
+  position: relative;
+}
+
+.sprite-icon-image {
+  background-position: var(--sprite-x) var(--sprite-y);
+  background-repeat: no-repeat;
+  background-size: var(--sprite-atlas-width) var(--sprite-atlas-height);
+  display: block;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: scale(var(--sprite-scale));
+  transform-origin: top left;
+}
+
 .art-grid {
   display: grid;
   gap: 0.75rem;

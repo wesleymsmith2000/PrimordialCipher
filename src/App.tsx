@@ -5,6 +5,8 @@ import { applyAction, createInitialState, createTile } from "./engine";
 import { primordialArtAssets, primordialBoardTemplate } from "./skins/primordialArt";
 import { ArtGallery } from "./ui/ArtGallery";
 import { BoardView } from "./ui/BoardView";
+import { GameAssetAtlasPreview } from "./ui/GameAssetAtlasPreview";
+import { TokenAtlasPreview } from "./ui/TokenAtlasPreview";
 
 export default function App() {
   const [state, setState] = useState(createInitialState);
@@ -81,6 +83,8 @@ export default function App() {
             {entry.message}
           </p>
         ))}
+        <TokenAtlasPreview />
+        <GameAssetAtlasPreview />
         <ArtGallery assets={primordialArtAssets} />
       </aside>
     </main>
