@@ -18,6 +18,11 @@ npm.cmd run dev
 
 PowerShell blocks `npm.ps1` on this machine, so VS Code tasks call `npm.cmd`.
 
+## GitHub Sync
+
+The repo includes `scripts/sync-github.ps1` for conservative scheduled syncs.
+It fetches from GitHub, fast-forward pulls clean worktrees, pushes committed local changes, and skips uncommitted or diverged states.
+
 ## Project Shape
 
 ```text
