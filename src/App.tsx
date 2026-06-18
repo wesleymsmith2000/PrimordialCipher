@@ -2,7 +2,7 @@ import { Brain, Dices, FlaskConical, StepForward } from "lucide-react";
 import { useMemo, useState } from "react";
 import { heuristicAi } from "./ai/heuristicAi";
 import { applyAction, createInitialState, createTile } from "./engine";
-import { primordialArtAssets } from "./skins/primordialArt";
+import { primordialArtAssets, primordialBoardTemplate } from "./skins/primordialArt";
 import { ArtGallery } from "./ui/ArtGallery";
 import { BoardView } from "./ui/BoardView";
 
@@ -68,7 +68,7 @@ export default function App() {
         </div>
       </section>
 
-      <BoardView state={state} />
+      <BoardView state={state} boardTemplateSrc={primordialBoardTemplate} />
 
       <aside className="event-log">
         <div className="panel-heading">

@@ -2,31 +2,34 @@ import type { GameState, Tile } from "../engine";
 
 interface BoardViewProps {
   state: GameState;
+  boardTemplateSrc?: string;
 }
 
-export function BoardView({ state }: BoardViewProps) {
+export function BoardView({ state, boardTemplateSrc }: BoardViewProps) {
   const radius = state.boardRadius;
   const tilesByPosition = new Map(Object.values(state.tiles).map((tile) => [`${tile.position.x},${tile.position.y}`, tile]));
 
   return (
-    <div className="board" style={{ gridTemplateColumns: `repeat(${radius * 2 + 1}, minmax(34px, 1fr))` }}>
-      {Array.from({ length: radius * 2 + 1 }, (_, yIndex) =>
-        Array.from({ length: radius * 2 + 1 }, (_, xIndex) => {
-          const x = xIndex - radius;
-          const y = yIndex - radius;
-          const tile = tilesByPosition.get(`${x},${y}`);
-          const anchor = Object.values(state.anchors).find(
-            (candidate) =>
-              x >= candidate.origin.x - 1 &&
-              x <= candidate.origin.x + 1 &&
-              y >= candidate.origin.y - 1 &&
-              y <= candidate.origin.y + 1
-          );
+    <section className="board-surface" style={boardTemplateSrc ? { backgroundImage: `url(${boardTemplateSrc})` } : undefined}>
+      <div className="board" style={{ gridTemplateColumns: `repeat(${radius * 2 + 1}, minmax(34px, 1fr))` }}>
+        {Array.from({ length: radius * 2 + 1 }, (_, yIndex) =>
+          Array.from({ length: radius * 2 + 1 }, (_, xIndex) => {
+            const x = xIndex - radius;
+            const y = yIndex - radius;
+            const tile = tilesByPosition.get(`${x},${y}`);
+            const anchor = Object.values(state.anchors).find(
+              (candidate) =>
+                x >= candidate.origin.x - 1 &&
+                x <= candidate.origin.x + 1 &&
+                y >= candidate.origin.y - 1 &&
+                y <= candidate.origin.y + 1
+            );
 
-          return <Cell key={`${x},${y}`} tile={tile} anchorOwner={anchor?.ownerId} />;
-        })
-      )}
-    </div>
+            return <Cell key={`${x},${y}`} tile={tile} anchorOwner={anchor?.ownerId} />;
+          })
+        )}
+      </div>
+    </section>
   );
 }
 
