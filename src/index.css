@@ -154,12 +154,74 @@ h2 {
   overflow: auto;
 }
 
+.panel-heading {
+  align-items: baseline;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.panel-heading > span {
+  color: #bfb491;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 .event-log p {
   border-top: 1px solid #3c3b2f;
   display: grid;
   gap: 0.35rem;
   margin: 0.75rem 0 0;
   padding-top: 0.75rem;
+}
+
+.art-gallery {
+  border-top: 1px solid #3c3b2f;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.art-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.art-card {
+  background: #171913;
+  border: 1px solid #3c3b2f;
+  border-radius: 8px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.art-card img {
+  aspect-ratio: 4 / 5;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.art-card.square img {
+  aspect-ratio: 1;
+}
+
+.art-card figcaption {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.7rem;
+}
+
+.art-card figcaption strong {
+  font-size: 0.9rem;
+}
+
+.art-card figcaption span {
+  color: #bfb491;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 @media (max-width: 1050px) {

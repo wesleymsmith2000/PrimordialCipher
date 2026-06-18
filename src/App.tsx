@@ -2,6 +2,8 @@ import { Brain, Dices, FlaskConical, StepForward } from "lucide-react";
 import { useMemo, useState } from "react";
 import { heuristicAi } from "./ai/heuristicAi";
 import { applyAction, createInitialState, createTile } from "./engine";
+import { primordialArtAssets } from "./skins/primordialArt";
+import { ArtGallery } from "./ui/ArtGallery";
 import { BoardView } from "./ui/BoardView";
 
 export default function App() {
@@ -69,13 +71,17 @@ export default function App() {
       <BoardView state={state} />
 
       <aside className="event-log">
-        <h2>Event Log</h2>
+        <div className="panel-heading">
+          <h2>Event Log</h2>
+          <span>{state.eventLog.length} entries</span>
+        </div>
         {latestEvents.map((entry, index) => (
           <p key={`${entry.round}-${index}`}>
             <span>R{entry.round}</span>
             {entry.message}
           </p>
         ))}
+        <ArtGallery assets={primordialArtAssets} />
       </aside>
     </main>
   );
