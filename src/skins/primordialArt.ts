@@ -1,14 +1,16 @@
 import arcanePuzzleBoardAssetSheetUrl from "../../assets/CipherBreydenArt/PrimordialCipher/ArcanePuzzleBoardAssetSheet.png";
 import boardGameComponentsUrl from "../../assets/CipherBreydenArt/PrimordialCipher/BoardGameComponents.png";
 import fiveFoldArchivistUrl from "../../assets/CipherBreydenArt/PrimordialCipher/FiveFoldArchivist.png";
+import gameInterfaceOverviewUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GameInterfaceOverview.png";
 import goldenTriadUrl from "../../assets/CipherBreydenArt/PrimordialCipher/GoldenTriad.png";
 import markerComponentsUrl from "../../assets/CipherBreydenArt/PrimordialCipher/MarkerComponents.png";
 import playingBoardTemplateUrl from "../../assets/CipherBreydenArt/PrimordialCipher/PlayingBoardTemplate.png";
 import shevaTheDreamingEagleUrl from "../../assets/CipherBreydenArt/PrimordialCipher/ShevaTheDreamingEagle.png";
 import superPrimeTilesStyleSheetUrl from "../../assets/CipherBreydenArt/PrimordialCipher/SuperPrimeTilesStyleSheet.png";
 import twinPulseTileUrl from "../../assets/CipherBreydenArt/PrimordialCipher/TwinPulseTile.png";
+import uiAssetSheetUrl from "../../assets/CipherBreydenArt/PrimordialCipher/UIAssetSheet.png";
 
-export type PrimordialArtKind = "board" | "card" | "component" | "marker" | "tile" | "style-sheet";
+export type PrimordialArtKind = "board" | "card" | "component" | "interface" | "marker" | "tile" | "style-sheet";
 
 export interface PrimordialArtAsset {
   id: string;
@@ -43,11 +45,25 @@ export const primordialArtAssets: PrimordialArtAsset[] = [
     src: boardGameComponentsUrl
   },
   {
+    id: "game-interface-overview",
+    title: "Game Interface Overview",
+    kind: "interface",
+    aspect: "landscape",
+    src: gameInterfaceOverviewUrl
+  },
+  {
     id: "marker-components",
     title: "Marker Components",
     kind: "marker",
     aspect: "landscape",
     src: markerComponentsUrl
+  },
+  {
+    id: "ui-asset-sheet",
+    title: "UI Asset Sheet",
+    kind: "interface",
+    aspect: "landscape",
+    src: uiAssetSheetUrl
   },
   {
     id: "five-fold-archivist",
